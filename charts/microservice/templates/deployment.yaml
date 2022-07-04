@@ -15,7 +15,7 @@ spec:
     metadata:
       labels:
         app: {{ .Values.common.name }}
-        version: {{ .Chart.AppVersion }}
+        version: {{ .Values.application.version | default .Chart.AppVersion }}
     spec:
       containers:
         - name: app
