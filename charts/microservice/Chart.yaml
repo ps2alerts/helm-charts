@@ -2,5 +2,5 @@ apiVersion: v2
 name: ps2alerts-microservice
 type: application
 description: PS2Alerts helm chart to deploy microservices in a common manner
-version: 0.0.1
-appVersion: 0.0.1
+version: 0.0.0
+appVersion: 0.0.0

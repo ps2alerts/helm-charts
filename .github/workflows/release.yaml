@@ -1,0 +1,55 @@
+# This action bumps the chart version and commits it when deployed to master
+name: Update version & Release
+
+on:
+  push:
+    tags:
+      - *
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout source code
+        uses: 'actions/checkout@v3'
+
+      - name: Get specific changed files
+        id: changed-files-specific
+        uses: tj-actions/changed-files@v14.7
+        with:
+          files: |
+            charts/microservice
+
+      - name: Automated Version Bump
+        if: steps.changed-files-specific.outputs.any_modified == 'true'
+        id: version-bump
+        uses: 'phips28/gh-action-bump-version@master'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGEJSON_DIR: charts
+        with:
+          skip-tag: 'true'
+          commit-message: 'CI: Bump Helm chart version to {{version}}'
+
+      - name: Update Chart.yaml
+        if: steps.changed-files-specific.outputs.any_modified == 'true'
+        working-directory: charts/microservice
+        run: |
+          cat <<EOF > Chart.yaml
+          name: ps2alerts-microservice
+          apiVersion: v2
+          version: ${{ steps.version-bump.outputs.newTag }}
+          appVersion: ${{ steps.package-version.outputs.current-version}}
+          EOF
+
+      - name: Commit the new Chart.yaml
+        if: steps.changed-files-specific.outputs.any_modified == 'true'
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Automated Change
+
+      - name: Create new GitHub Release
+        if: steps.changed-files-specific.outputs.any_modified == 'true'
+        uses: ncipollo/release-action@v1
