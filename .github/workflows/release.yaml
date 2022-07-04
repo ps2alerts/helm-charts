@@ -1,5 +1,5 @@
 # This action bumps the chart version and commits it when deployed to master
-name: Update version & Release
+name: Update version & release
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
         uses: tj-actions/changed-files@v14.7
         with:
           files: |
-            charts/microservice
+            charts
 
       - name: Automated Version Bump
         if: steps.changed-files-specific.outputs.any_modified == 'true'
