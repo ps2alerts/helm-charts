@@ -3,8 +3,8 @@ name: Update version & release
 
 on:
   push:
-    tags:
-      - v*
+    branches:
+      - master
 
 jobs:
   release:
@@ -32,8 +32,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PACKAGEJSON_DIR: charts
         with:
-          skip-tag: 'true'
           commit-message: 'CI: Bump Helm chart version to {{version}}'
+          target-branch: 'master'
 
       - name: Update Chart.yaml
         if: steps.changed-files-specific.outputs.any_modified == 'true'
@@ -50,7 +50,7 @@ jobs:
         if: steps.changed-files-specific.outputs.any_modified == 'true'
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Automated Change
+          commit_message: Automated version increase
 
       - name: Create new GitHub Release
         if: steps.changed-files-specific.outputs.any_modified == 'true'
