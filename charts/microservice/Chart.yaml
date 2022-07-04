@@ -1,4 +1,4 @@
 apiVersion: v2
 name: ps2alerts-microservice
-version: 0.0.5
-appVersion: wrong version
+version: 
+appVersion: 
