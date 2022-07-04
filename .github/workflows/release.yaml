@@ -24,17 +24,6 @@ jobs:
           files: |
             charts
 
-      - name: Automated Version Bump
-        if: steps.changed-files-specific.outputs.any_modified == 'true'
-        id: version-bump
-        uses: 'phips28/gh-action-bump-version@master'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PACKAGEJSON_DIR: charts
-        with:
-          commit-message: 'CI: Bump Helm chart version to {{version}}'
-          target-branch: 'master'
-
       - name: Update Chart.yaml
         if: steps.changed-files-specific.outputs.any_modified == 'true'
         working-directory: charts/microservice
@@ -52,10 +41,16 @@ jobs:
         with:
           commit_message: Automated version increase
 
-      - name: Create new tag
-        uses: rickstaa/action-create-tag@v1
+      - name: Automated Version Bump
+        if: steps.changed-files-specific.outputs.any_modified == 'true'
+        id: version-bump
+        uses: 'phips28/gh-action-bump-version@master'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGEJSON_DIR: charts
         with:
-          tag: ${{ steps.version-bump.outputs.newTag }}
+          commit-message: 'CI: Bump version to {{version}}'
+          target-branch: 'master'
 
       - name: Create new GitHub Release
         if: steps.changed-files-specific.outputs.any_modified == 'true'
