@@ -25,7 +25,7 @@ jobs:
             charts
 
       - name: Calculate version
-        if: steps.changed-files-specific.outputs.any_modified == 'true'
+#        if: steps.changed-files-specific.outputs.any_modified == 'true'
         id: version
         uses: 'phips28/gh-action-bump-version@master'
         env:
@@ -37,7 +37,7 @@ jobs:
           target-branch: 'master'
 
       - name: Update Chart.yaml
-        if: steps.changed-files-specific.outputs.any_modified == 'true'
+#        if: steps.changed-files-specific.outputs.any_modified == 'true'
         working-directory: charts/microservice
         run: |
           cat <<EOF > Chart.yaml
@@ -48,24 +48,21 @@ jobs:
           EOF
 
       - name: Commit the new Chart.yaml
-        if: steps.changed-files-specific.outputs.any_modified == 'true'
+#        if: steps.changed-files-specific.outputs.any_modified == 'true'
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Automated version increase
+          commit_message: Bumps version to ${{ steps.version.outputs.newTag }}
 
-      - name: Automated Version Bump
-        if: steps.changed-files-specific.outputs.any_modified == 'true'
-        id: version-bump
-        uses: 'phips28/gh-action-bump-version@master'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PACKAGEJSON_DIR: charts
+      - name: Bump version and push tag
+#        if: steps.changed-files-specific.outputs.any_modified == 'true'
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.0
         with:
-          commit-message: 'CI: Bump version to {{version}}'
-          target-branch: 'master'
+          github_token: ${{ secrets.GITHUB_TOKEN }}\
+          custom_tag: ${{ steps.version.outputs.newTag }}
 
       - name: Create new GitHub Release
-        if: steps.changed-files-specific.outputs.any_modified == 'true'
+#        if: steps.changed-files-specific.outputs.any_modified == 'true'
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.version.outputs.newTag }}
