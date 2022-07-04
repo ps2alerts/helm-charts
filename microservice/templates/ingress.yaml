@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Chart.Name }}
+  name: {{ .Values.common.name }}
   namespace: {{ .Values.namespace }}
   {{- if or (.Values.ingress.annotations) (eq .Values.ingress.wwwRedirect true) }}
   annotations:
@@ -34,7 +34,7 @@ spec:
             path: /
             backend:
               service:
-                name: {{ .Chart.Name }}
+                name: {{ .Values.common.name }}
                 port:
                   number: {{ .Values.application.port }}
 {{- end }}

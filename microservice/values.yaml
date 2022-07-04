@@ -2,6 +2,7 @@ namespace: ps2alerts
 environment: production
 
 common:
+  name: ps2alerts-microservice
   hostname: foo.com
 
 application:
