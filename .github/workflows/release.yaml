@@ -4,7 +4,7 @@ name: Update version & Release
 on:
   push:
     tags:
-      - *
+      - v*
 
 jobs:
   release:
