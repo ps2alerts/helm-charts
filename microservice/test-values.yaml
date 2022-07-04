@@ -1,0 +1,41 @@
+common:
+  hostname: test.com
+
+application:
+  port: 4000
+
+service:
+  enabled: true
+
+ingress:
+  enabled: true
+  wwwRedirect: true
+  annotations: |
+    nginx.ingress.kubernetes.io/server-snippet: |
+          expires 1d;
+          add_header Cache-Control "public, must-revalidate";
+
+deployment:
+  containerImage: dockerhub.com/foo
+  probes:
+    startupProbe:
+      enabled: true
+      type: command
+      command:
+        - /bin/bash
+        - -c
+        - cat /app/ready.file | grep -i "ready"
+    readinessProbe:
+      enabled: true
+      type: httpGet
+      httpGetPath: /testing123
+    livenessProbe:
+      enabled: true
+      type: command
+      command:
+        - /bin/bash
+        - -c
+        - ps -ef | grep "run start" | grep -v grep
+  env:
+    - name: NODE_ENV
+      value: production

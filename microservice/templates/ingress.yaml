@@ -1,0 +1,40 @@
+{{- if eq .Values.ingress.enabled true }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Values.namespace }}
+  {{- if or (.Values.ingress.annotations) (eq .Values.ingress.wwwRedirect true) }}
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    {{- if .Values.ingress.wwwRedirect }}
+    ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^/(.*)$ https://{{ .Values.ingress.host }}/$1 permanent;
+    {{- end }}
+  {{- end }}
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - {{ .Values.common.hostname }}
+        {{- if eq .Values.ingress.wwwRedirect true }}
+        - www.{{ .Values.common.hostname }}
+        {{- end }}
+        {{- if .Values.ingress.extraHosts }}
+          {{- range .Values.ingress.extraHosts }}
+        - {{ . }}
+          {{- end }}
+        {{- end }}
+      secretName: {{ .Values.common.hostname }}-tls
+  rules:
+    - host: {{ .Values.common.hostname }}
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: {{ .Chart.Name }}
+                port:
+                  number: {{ .Values.application.port }}
+{{- end }}

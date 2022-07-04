@@ -1,0 +1,58 @@
+namespace: ps2alerts
+environment: production
+
+common:
+  hostname: foo.com
+
+application:
+  port: 3000
+
+service:
+  enabled: true
+
+ingress:
+  enabled: false
+  wwwRedirect: false
+  extraHosts: {}
+# Due to wonkyness, we have to indent the values of the snippets 4 times more than normal
+#  annotations: |
+#    nginx.ingress.kubernetes.io/server-snippet: |
+#          expires 1d;
+#          add_header Cache-Control "public, must-revalidate";
+
+deployment:
+  replicas: 1
+  containerImage: foo
+  resources:
+    cpu:
+      limits: 200m
+      requests: 50m
+    mem:
+      limits: 256Mi
+      requests: 256Mi
+  probes:
+    startupProbe:
+      enabled: false
+      type: httpGet # httpGet | command
+      command: 'foo-bar' # If type = command
+      httpGetPath: / # If httpGet is used
+      periodSeconds: 5
+      successThreshold: 2
+      failureThreshold: 6
+    readinessProbe:
+      enabled: false
+      type: httpGet # httpGet | command
+      command: 'foo-bar' # If type = command
+      httpGetPath: / # If httpGet is used
+      periodSeconds: 10
+      successThreshold: 1
+      failureThreshold: 3
+    livenessProbe:
+      enabled: false
+      type: httpGet # httpGet | command
+      command: 'foo-bar' # If type = command
+      httpGetPath: / # If httpGet is used
+      periodSeconds: 10
+      successThreshold: 1
+      failureThreshold: 1
+  env: {}
