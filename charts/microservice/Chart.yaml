@@ -1,4 +1,4 @@
-name: ps2alerts-microservice
 apiVersion: v2
-version: 0.0.4
-appVersion: something
+name: ps2alerts-microservice
+version: 0.0.5
+appVersion: 0.0.5
