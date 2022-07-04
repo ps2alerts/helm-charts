@@ -24,6 +24,18 @@ jobs:
           files: |
             charts
 
+      - name: Calculate version
+        if: steps.changed-files-specific.outputs.any_modified == 'true'
+        id: version
+        uses: 'phips28/gh-action-bump-version@master'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGEJSON_DIR: charts
+        with:
+          skip-tag: true
+          skip-commit: true
+          target-branch: 'master'
+
       - name: Update Chart.yaml
         if: steps.changed-files-specific.outputs.any_modified == 'true'
         working-directory: charts/microservice
@@ -31,8 +43,8 @@ jobs:
           cat <<EOF > Chart.yaml
           apiVersion: v2
           name: ps2alerts-microservice
-          version: ${{ steps.version-bump.outputs.newTag }}
-          appVersion: ${{ steps.version-bump.outputs.newTag }}
+          version: ${{ steps.version.outputs.newTag }}
+          appVersion: ${{ steps.version.outputs.newTag }}
           EOF
 
       - name: Commit the new Chart.yaml
@@ -56,4 +68,4 @@ jobs:
         if: steps.changed-files-specific.outputs.any_modified == 'true'
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ steps.version-bump.outputs.newTag }}
+          tag: ${{ steps.version.outputs.newTag }}
