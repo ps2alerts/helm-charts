@@ -40,10 +40,10 @@ jobs:
         working-directory: charts/microservice
         run: |
           cat <<EOF > Chart.yaml
-          name: ps2alerts-microservice
           apiVersion: v2
+          name: ps2alerts-microservice
           version: ${{ steps.version-bump.outputs.newTag }}
-          appVersion: ${{ steps.package-version.outputs.current-version}}
+          appVersion: ${{ steps.version-bump.outputs.newTag }}
           EOF
 
       - name: Commit the new Chart.yaml
@@ -52,6 +52,13 @@ jobs:
         with:
           commit_message: Automated version increase
 
+      - name: Create new tag
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: ${{ steps.version-bump.outputs.newTag }}
+
       - name: Create new GitHub Release
         if: steps.changed-files-specific.outputs.any_modified == 'true'
         uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.version-bump.outputs.newTag }}
