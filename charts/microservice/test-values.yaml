@@ -15,27 +15,76 @@ ingress:
           expires 1d;
           add_header Cache-Control "public, must-revalidate";
 
-deployment:
-  containerImage: dockerhub.com/foo
-  probes:
-    startupProbe:
-      enabled: true
-      type: command
-      command:
-        - /bin/bash
-        - -c
-        - cat /app/ready.file | grep -i "ready"
-    readinessProbe:
-      enabled: true
-      type: httpGet
-      httpGetPath: /testing123
-    livenessProbe:
-      enabled: true
-      type: command
-      command:
-        - /bin/bash
-        - -c
-        - ps -ef | grep "run start" | grep -v grep
-  env:
-    - name: NODE_ENV
-      value: production
+deployments:
+  one:
+    containerImage: dockerhub.com/foo
+    probes:
+      startupProbe:
+        enabled: true
+        type: command
+        command:
+          - /bin/bash
+          - -c
+          - cat /app/ready.file | grep -i "ready"
+      readinessProbe:
+        enabled: true
+        type: httpGet
+        httpGetPath: /one
+      livenessProbe:
+        enabled: true
+        type: command
+        command:
+          - /bin/bash
+          - -c
+          - ps -ef | grep "run start" | grep -v grep
+    env:
+      - name: NODE_ENV
+        value: production
+  two:
+    containerImage: dockerhub.com/foo
+    probes:
+      startupProbe:
+        enabled: true
+        type: command
+        command:
+          - /bin/bash
+          - -c
+          - cat /app/ready.file | grep -i "ready"
+      readinessProbe:
+        enabled: true
+        type: httpGet
+        httpGetPath: /two
+      livenessProbe:
+        enabled: true
+        type: command
+        command:
+          - /bin/bash
+          - -c
+          - ps -ef | grep "run start" | grep -v grep
+    env:
+      - name: NODE_ENV
+        value: production
+  three:
+    containerImage: dockerhub.com/foo
+    probes:
+      startupProbe:
+        enabled: true
+        type: command
+        command:
+          - /bin/bash
+          - -c
+          - cat /app/ready.file | grep -i "ready"
+      readinessProbe:
+        enabled: true
+        type: httpGet
+        httpGetPath: /three
+      livenessProbe:
+        enabled: true
+        type: command
+        command:
+          - /bin/bash
+          - -c
+          - ps -ef | grep "run start" | grep -v grep
+    env:
+      - name: NODE_ENV
+        value: production

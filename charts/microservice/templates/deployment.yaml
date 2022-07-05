@@ -1,79 +1,82 @@
+{{- range .Values.deployments }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.common.name }}
-  namespace: {{ .Values.namespace }}
+  name: {{ $.Values.common.name }}
+  namespace: {{ $.Values.namespace }}
   labels:
-    app: {{ .Values.common.name }}
+    app: {{ $.Values.common.name }}
 spec:
-  replicas: {{ .Values.deployment.replicas }}
+  replicas: {{ .replicas }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: {{ .Values.common.name }}
+      app: {{ $.Values.common.name }}
   template:
     metadata:
       labels:
-        app: {{ .Values.common.name }}
-        version: {{ .Values.application.version | default .Chart.AppVersion }}
+        app: {{ $.Values.common.name }}
+        version: {{ $.Values.application.version }}
     spec:
       containers:
         - name: app
-          image: {{ .Values.deployment.containerImage }}
+          image: {{ .containerImage }}
           imagePullPolicy: IfNotPresent
           resources:
             requests:
-              cpu: {{ .Values.deployment.resources.cpu.requests }}
-              memory: {{ .Values.deployment.resources.mem.requests }}
+              cpu: {{ .resources.cpu.requests }}
+              memory: {{ .resources.mem.requests }}
             limits:
-              cpu: {{ .Values.deployment.resources.cpu.limits }}
-              memory: {{ .Values.deployment.resources.mem.limits }}
-          {{- if eq .Values.deployment.probes.startupProbe.enabled true }}
+              cpu: {{ .resources.cpu.limits }}
+              memory: {{ .resources.mem.limits  }}
+          {{- if eq .probes.startupProbe.enabled true }}
           startupProbe:
-            {{- if eq .Values.deployment.probes.startupProbe.type "command" }}
+            {{- if eq .probes.startupProbe.type "command" }}
             exec:
-              command: {{- range .Values.deployment.probes.startupProbe.command }} {{.}}{{- end }}
+              command: {{- range .probes.startupProbe.command }} {{.}}{{- end }}
             {{- end }}
-            {{- if eq .Values.deployment.probes.startupProbe.type "httpGet" }}
+            {{- if eq .probes.startupProbe.type "httpGet" }}
             httpGet:
-              path: {{ .Values.deployment.probes.startupProbe.httpGetPath }}
+              path: {{ .probes.startupProbe.httpGetPath }}
             {{- end }}
-            periodSeconds: {{ .Values.deployment.probes.startupProbe.periodSeconds }}
-            successThreshold: {{ .Values.deployment.probes.startupProbe.successThreshold }}
-            failureThreshold: {{ .Values.deployment.probes.startupProbe.failureThreshold }}
+            periodSeconds: {{ .probes.startupProbe.periodSeconds }}
+            successThreshold: {{ .probes.startupProbe.successThreshold }}
+            failureThreshold: {{ .probes.startupProbe.failureThreshold }}
           {{- end }}
-          {{- if eq .Values.deployment.probes.readinessProbe.enabled true }}
+          {{- if eq .probes.readinessProbe.enabled true }}
           readinessProbe:
-            {{- if eq .Values.deployment.probes.readinessProbe.type "command" }}
+            {{- if eq .probes.readinessProbe.type "command" }}
             exec:
-              command: {{- range .Values.deployment.probes.readinessProbe.command }} {{.}}{{- end }}
+              command: {{- range .probes.readinessProbe.command }} {{.}}{{- end }}
             {{- end }}
-            {{- if eq .Values.deployment.probes.readinessProbe.type "httpGet" }}
+            {{- if eq .probes.readinessProbe.type "httpGet" }}
             httpGet:
-              path: {{ .Values.deployment.probes.readinessProbe.httpGetPath }}
+              path: {{ .probes.readinessProbe.httpGetPath }}
             {{- end }}
-            periodSeconds: {{ .Values.deployment.probes.readinessProbe.periodSeconds }}
-            successThreshold: {{ .Values.deployment.probes.readinessProbe.successThreshold }}
-            failureThreshold: {{ .Values.deployment.probes.readinessProbe.failureThreshold }}
+            periodSeconds: {{ .probes.readinessProbe.periodSeconds }}
+            successThreshold: {{ .probes.readinessProbe.successThreshold }}
+            failureThreshold: {{ .probes.readinessProbe.failureThreshold }}
           {{- end }}
-          {{- if eq .Values.deployment.probes.livenessProbe.enabled true }}
+          {{- if eq .probes.livenessProbe.enabled true }}
           livenessProbe:
-            {{- if eq .Values.deployment.probes.livenessProbe.type "command" }}
+            {{- if eq .probes.livenessProbe.type "command" }}
             exec:
-              command: {{- range .Values.deployment.probes.livenessProbe.command }} {{.}}{{- end }}
+              command: {{- range .probes.livenessProbe.command }} {{.}}{{- end }}
             {{- end }}
-            {{- if eq .Values.deployment.probes.livenessProbe.type "httpGet" }}
+            {{- if eq .probes.livenessProbe.type "httpGet" }}
             httpGet:
-              path: {{ .Values.deployment.probes.livenessProbe.httpGetPath }}
+              path: {{ .probes.livenessProbe.httpGetPath }}
             {{- end }}
-            periodSeconds: {{ .Values.deployment.probes.livenessProbe.periodSeconds }}
-            successThreshold: {{ .Values.deployment.probes.livenessProbe.successThreshold }}
-            failureThreshold: {{ .Values.deployment.probes.livenessProbe.failureThreshold }}
+            periodSeconds: {{ .probes.livenessProbe.periodSeconds }}
+            successThreshold: {{ .probes.livenessProbe.successThreshold }}
+            failureThreshold: {{ .probes.livenessProbe.failureThreshold }}
           {{- end }}
-          {{- if .Values.deployment.env }}
+          {{- if .env }}
           env:
-            {{- range .Values.deployment.env }}
+            {{- range .env }}
             - name: {{ .name }}
               value: {{ .value }}
             {{- end }}
           {{- end }}
+{{- end }}

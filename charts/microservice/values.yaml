@@ -22,39 +22,113 @@ ingress:
 #          expires 1d;
 #          add_header Cache-Control "public, must-revalidate";
 
-deployment:
-  replicas: 1
-  containerImage: foo
-  resources:
-    cpu:
-      limits: 200m
-      requests: 50m
-    mem:
-      limits: 256Mi
-      requests: 256Mi
-  probes:
-    startupProbe:
-      enabled: false
-      type: httpGet # httpGet | command
-      command: 'foo-bar' # If type = command
-      httpGetPath: / # If httpGet is used
-      periodSeconds: 5
-      successThreshold: 2
-      failureThreshold: 6
-    readinessProbe:
-      enabled: false
-      type: httpGet # httpGet | command
-      command: 'foo-bar' # If type = command
-      httpGetPath: / # If httpGet is used
-      periodSeconds: 10
-      successThreshold: 1
-      failureThreshold: 3
-    livenessProbe:
-      enabled: false
-      type: httpGet # httpGet | command
-      command: 'foo-bar' # If type = command
-      httpGetPath: / # If httpGet is used
-      periodSeconds: 10
-      successThreshold: 1
-      failureThreshold: 1
-  env: {}
+# Welcome to the glorious hacks we have to do to get multiple deployments in one helm chart! No we can't use arrays. No we can't use dict based defaults. I've tried it all, this is the only solution that works >:(
+deployments:
+  one:
+    replicas: 1
+    containerImage: foo
+    resources:
+      cpu:
+        limits: 200m
+        requests: 50m
+      mem:
+        limits: 256Mi
+        requests: 256Mi
+    probes:
+      startupProbe:
+        enabled: false
+        type: httpGet # httpGet | command
+        command: 'foo-bar' # If type = command
+        httpGetPath: / # If httpGet is used
+        periodSeconds: 5
+        successThreshold: 2
+        failureThreshold: 6
+      readinessProbe:
+        enabled: false
+        type: httpGet # httpGet | command
+        command: 'foo-bar' # If type = command
+        httpGetPath: / # If httpGet is used
+        periodSeconds: 10
+        successThreshold: 1
+        failureThreshold: 3
+      livenessProbe:
+        enabled: false
+        type: httpGet # httpGet | command
+        command: 'foo-bar' # If type = command
+        httpGetPath: / # If httpGet is used
+        periodSeconds: 10
+        successThreshold: 1
+        failureThreshold: 1
+    env: {}
+  two:
+    replicas: 1
+    containerImage: foo
+    resources:
+      cpu:
+        limits: 200m
+        requests: 50m
+      mem:
+        limits: 256Mi
+        requests: 256Mi
+    probes:
+      startupProbe:
+        enabled: false
+        type: httpGet # httpGet | command
+        command: 'foo-bar' # If type = command
+        httpGetPath: / # If httpGet is used
+        periodSeconds: 5
+        successThreshold: 2
+        failureThreshold: 6
+      readinessProbe:
+        enabled: false
+        type: httpGet # httpGet | command
+        command: 'foo-bar' # If type = command
+        httpGetPath: / # If httpGet is used
+        periodSeconds: 10
+        successThreshold: 1
+        failureThreshold: 3
+      livenessProbe:
+        enabled: false
+        type: httpGet # httpGet | command
+        command: 'foo-bar' # If type = command
+        httpGetPath: / # If httpGet is used
+        periodSeconds: 10
+        successThreshold: 1
+        failureThreshold: 1
+    env: {}
+  three:
+    replicas: 1
+    containerImage: foo
+    resources:
+      cpu:
+        limits: 200m
+        requests: 50m
+      mem:
+        limits: 256Mi
+        requests: 256Mi
+    probes:
+      startupProbe:
+        enabled: false
+        type: httpGet # httpGet | command
+        command: 'foo-bar' # If type = command
+        httpGetPath: / # If httpGet is used
+        periodSeconds: 5
+        successThreshold: 2
+        failureThreshold: 6
+      readinessProbe:
+        enabled: false
+        type: httpGet # httpGet | command
+        command: 'foo-bar' # If type = command
+        httpGetPath: / # If httpGet is used
+        periodSeconds: 10
+        successThreshold: 1
+        failureThreshold: 3
+      livenessProbe:
+        enabled: false
+        type: httpGet # httpGet | command
+        command: 'foo-bar' # If type = command
+        httpGetPath: / # If httpGet is used
+        periodSeconds: 10
+        successThreshold: 1
+        failureThreshold: 1
+    env: {}
