@@ -13,7 +13,6 @@ spec:
   selector:
     matchLabels:
       app: {{ $.Values.common.name }}-{{ .index }}
-      version: {{ $.Values.application.version }}
   template:
     metadata:
       labels:
