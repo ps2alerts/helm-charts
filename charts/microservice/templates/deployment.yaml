@@ -12,11 +12,11 @@ spec:
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: {{ $.Values.common.name }}
+      app: {{ $.Values.common.name }}-{{ .index }}
   template:
     metadata:
       labels:
-        app: {{ $.Values.common.name }}
+        app: {{ $.Values.common.name }}-{{ .index }}
         version: {{ $.Values.application.version }}
     spec:
       containers:
