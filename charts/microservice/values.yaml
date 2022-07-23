@@ -61,6 +61,7 @@ deployments:
         successThreshold: 1
         failureThreshold: 1
     env: {}
+    nodeSelector: {}
   two:
     index: 1
     replicas: 1
@@ -98,6 +99,7 @@ deployments:
         successThreshold: 1
         failureThreshold: 1
     env: {}
+    nodeSelector: {}
   three:
     index: 2
     replicas: 1
@@ -135,3 +137,5 @@ deployments:
         successThreshold: 1
         failureThreshold: 1
     env: {}
+    nodeSelector: {}
+
