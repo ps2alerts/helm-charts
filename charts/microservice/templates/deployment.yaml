@@ -19,6 +19,9 @@ spec:
         app: {{ $.Values.common.name }}-{{ .index }}
         version: {{ $.Values.application.version }}
     spec:
+      {{-if .nodeSelector }}
+      nodeSelector: {{ .nodeSelector }}
+      {{-end }}
       containers:
         - name: app
           image: {{ .containerImage }}
