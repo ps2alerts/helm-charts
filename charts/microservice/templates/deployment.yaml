@@ -20,7 +20,7 @@ spec:
         version: {{ $.Values.application.version }}
     spec:
       {{- if .nodeSelector }}
-      nodeSelector: {{ .nodeSelector }}
+      nodeSelector: {{- .nodeSelector | toYaml | nindent 8 }}
       {{- end }}
       containers:
         - name: app

@@ -41,6 +41,8 @@ deployments:
     env:
       - name: NODE_ENV
         value: production
+    nodeSelector:
+      nodepool: perm-pool
   two:
     index: ps4eu
     containerImage: dockerhub.com/foo
