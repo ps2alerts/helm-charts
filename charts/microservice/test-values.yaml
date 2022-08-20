@@ -43,6 +43,11 @@ deployments:
         value: production
     nodeSelector:
       nodepool: perm-pool
+    scaling:
+      enabled: true
+      min: 1
+      max: 10
+      targetCpu: 69
   two:
     index: ps4eu
     containerImage: dockerhub.com/foo

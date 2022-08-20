@@ -16,6 +16,7 @@ ingress:
   enabled: false
   wwwRedirect: false
   extraHosts: {}
+
 # Due to wonkyness, we have to indent the values of the snippets 4 times more than normal
 #  annotations: |
 #    nginx.ingress.kubernetes.io/server-snippet: |
@@ -62,6 +63,8 @@ deployments:
         failureThreshold: 1
     env: {}
     nodeSelector: {}
+    scaling:
+      enabled: false
   two:
     index: 1
     replicas: 1
@@ -100,6 +103,8 @@ deployments:
         failureThreshold: 1
     env: {}
     nodeSelector: {}
+    scaling:
+      enabled: false
   three:
     index: 2
     replicas: 1
@@ -138,4 +143,6 @@ deployments:
         failureThreshold: 1
     env: {}
     nodeSelector: {}
+    scaling:
+      enabled: false
 

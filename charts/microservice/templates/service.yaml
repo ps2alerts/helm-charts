@@ -12,4 +12,20 @@ spec:
     - protocol: TCP
       port: {{ .Values.application.port }}
       targetPort: {{ .Values.application.port }}
+  {{- if eq .Values.service.prometheusMonitoring true }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Values.common.name }}
+  namespace: ps2alerts
+  labels:
+    app: {{ .Values.common.name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.common.name }}
+  endpoints:
+    - port: "{{ .Values.application.port }}"
+  {{- end }}
 {{- end }}

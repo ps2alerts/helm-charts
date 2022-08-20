@@ -82,4 +82,20 @@ spec:
               value: {{ .value }}
             {{- end }}
           {{- end }}
+  {{- if eq .scaling.enabled true }}
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ $.Values.common.name }}
+  namespace: {{ $.Values.namespace }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ $.Values.common.name }}-{{ .index }}
+  minReplicas: {{ .scaling.min }}
+  maxReplicas: {{ .scaling.max }}
+  targetCPUUtilizationPercentage: {{ .scaling.targetCpu }}
+  {{- end }}
 {{- end }}
