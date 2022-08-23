@@ -105,5 +105,18 @@ spec:
   maxReplicas: {{ .scaling.max }}
   targetCPUUtilizationPercentage: {{ .scaling.targetCpu }}
     {{- end }}
+    {{- if eq .podDisruptionBudget.enabled true }}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ $.Values.common.name }}-{{ .index }}
+  namespace: {{ $.Values.namespace }}
+spec:
+  minAvailable: {{ .podDisruptionBudget.minAvailable }}
+  selector:
+    matchLabels:
+      app: {{ $.Values.common.name }}-{{ .index }}
+    {{- end }}
   {{- end }}
 {{- end }}

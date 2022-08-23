@@ -70,6 +70,9 @@ deployments:
     nodeSelector: {}
     scaling:
       enabled: false
+    podDisruptionBudget:
+      enabled: false
+      # minAvailable: 25%
   two:
     index: 1
     enabled: false
@@ -111,6 +114,8 @@ deployments:
     nodeSelector: {}
     scaling:
       enabled: false
+    podDisruptionBudget:
+      enabled: false
   three:
     index: 2
     enabled: false
@@ -151,5 +156,7 @@ deployments:
     env: {}
     nodeSelector: {}
     scaling:
+      enabled: false
+    podDisruptionBudget:
       enabled: false
 
