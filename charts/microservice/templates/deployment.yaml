@@ -45,8 +45,9 @@ spec:
               path: {{ .probes.startupProbe.httpGetPath }}
               port: {{ $.Values.application.port }}
             {{- end }}
+            initialDelaySeconds: {{ .probes.startupProbe.initialDelaySeconds }}
             periodSeconds: {{ .probes.startupProbe.periodSeconds }}
-            successThreshold: {{ .probes.startupProbe.successThreshold }}
+            successThreshold: 1 # Can't be anything else
             failureThreshold: {{ .probes.startupProbe.failureThreshold }}
           {{- end }}
           {{- if eq .probes.readinessProbe.enabled true }}

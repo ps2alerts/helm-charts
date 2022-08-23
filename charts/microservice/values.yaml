@@ -45,8 +45,8 @@ deployments:
         type: httpGet # httpGet | command
         command: 'foo-bar' # If type = command
         httpGetPath: / # If httpGet is used
+        initialDelaySeconds: 5
         periodSeconds: 5
-        successThreshold: 2
         failureThreshold: 6
       readinessProbe:
         enabled: false
