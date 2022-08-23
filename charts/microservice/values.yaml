@@ -11,6 +11,8 @@ application:
 
 service:
   enabled: false
+  prometheusMonitoring: false
+  backendTarget: ps2alerts-microservice-0
 
 ingress:
   enabled: false

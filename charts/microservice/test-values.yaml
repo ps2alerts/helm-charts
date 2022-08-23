@@ -6,6 +6,8 @@ application:
 
 service:
   enabled: true
+  prometheusMonitoring: true
+  backendTarget: ps2alerts-microservice-pc # This points to a particular index in deployments
 
 ingress:
   enabled: true
