@@ -73,6 +73,8 @@ deployments:
     podDisruptionBudget:
       enabled: false
       # minAvailable: 25%
+    strategy:
+      enabled: false
   two:
     index: 1
     enabled: false
@@ -116,6 +118,8 @@ deployments:
       enabled: false
     podDisruptionBudget:
       enabled: false
+    strategy:
+      enabled: false
   three:
     index: 2
     enabled: false
@@ -158,5 +162,7 @@ deployments:
     scaling:
       enabled: false
     podDisruptionBudget:
+      enabled: false
+    strategy:
       enabled: false
 

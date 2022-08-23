@@ -11,6 +11,13 @@ metadata:
 spec:
   replicas: {{ .replicas }}
   revisionHistoryLimit: 3
+  {{- if eq .strategy.enabled true }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: {{ .strategy.maxSurge }}
+      maxUnavailable: {{ .strategy.maxUnavailable }}
+  {{- end }}
   selector:
     matchLabels:
       app: {{ $.Values.common.name }}-{{ .index }}

@@ -54,6 +54,10 @@ deployments:
     podDisruptionBudget:
       enabled: true
       minAvailable: 25%
+    strategy:
+      enabled: true
+      maxSurge: 1
+      maxUnavailable: 25%
   two:
     index: ps4eu
     enabled: false
