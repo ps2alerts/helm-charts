@@ -1,6 +1,6 @@
 {
   "name": "ps2alerts-charts",
-  "version": "0.2.4",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ps2alerts/helm-charts.git"
