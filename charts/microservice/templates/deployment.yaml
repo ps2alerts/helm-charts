@@ -61,6 +61,7 @@ spec:
               path: {{ .probes.readinessProbe.httpGetPath }}
               port: {{ $.Values.application.port }}
             {{- end }}
+            initialDelaySeconds: {{ .probes.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .probes.readinessProbe.periodSeconds }}
             successThreshold: {{ .probes.readinessProbe.successThreshold }}
             failureThreshold: {{ .probes.readinessProbe.failureThreshold }}
@@ -76,6 +77,7 @@ spec:
               path: {{ .probes.livenessProbe.httpGetPath }}
               port: {{ $.Values.application.port }}
             {{- end }}
+            initialDelaySeconds: {{ .probes.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .probes.livenessProbe.periodSeconds }}
             successThreshold: {{ .probes.livenessProbe.successThreshold }}
             failureThreshold: {{ .probes.livenessProbe.failureThreshold }}
