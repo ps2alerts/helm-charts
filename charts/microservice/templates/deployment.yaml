@@ -1,4 +1,5 @@
 {{- range .Values.deployments }}
+  {{- if eq .enabled true }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -82,7 +83,7 @@ spec:
               value: {{ .value }}
             {{- end }}
           {{- end }}
-  {{- if eq .scaling.enabled true }}
+    {{- if eq .scaling.enabled true }}
 ---
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
@@ -97,5 +98,6 @@ spec:
   minReplicas: {{ .scaling.min }}
   maxReplicas: {{ .scaling.max }}
   targetCPUUtilizationPercentage: {{ .scaling.targetCpu }}
+    {{- end }}
   {{- end }}
 {{- end }}
