@@ -6,7 +6,7 @@ metadata:
   namespace: {{ .Values.namespace }}
 spec:
   selector:
-    app: {{ .Values.common.name }}
+    app: {{ .Values.common.backendTarget }}
     version: {{ .Values.application.version | default .Chart.AppVersion }}
   ports:
     - protocol: TCP
