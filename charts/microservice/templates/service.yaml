@@ -20,11 +20,11 @@ metadata:
   name: {{ .Values.common.name }}
   namespace: ps2alerts
   labels:
-    app: {{ .Values.service.backendTarget }}
+    app: {{ .Values.common.backendTarget }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.service.backendTarget }}
+      app: {{ .Values.common.backendTarget }}
   endpoints:
     - port: "{{ .Values.application.port }}"
   {{- end }}

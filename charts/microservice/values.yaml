@@ -4,6 +4,7 @@ environment: production
 common:
   name: ps2alerts-microservice
   hostname: foo.com
+  backendTarget: ps2alerts-microservice-0 # used by ingress and service
 
 application:
   port: 3000
@@ -12,7 +13,6 @@ application:
 service:
   enabled: false
   prometheusMonitoring: false
-  backendTarget: ps2alerts-microservice-0
 
 ingress:
   enabled: false

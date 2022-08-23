@@ -34,7 +34,7 @@ spec:
             path: /
             backend:
               service:
-                name: {{ .Values.common.name }}
+                name: {{ .Values.common.backendTarget }}
                 port:
                   number: {{ .Values.application.port }}
 {{- end }}
