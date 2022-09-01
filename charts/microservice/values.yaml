@@ -17,6 +17,7 @@ service:
 ingress:
   enabled: false
   wwwRedirect: false
+  provisionCert: true
   extraHosts: {}
 
 # Due to wonkyness, we have to indent the values of the snippets 4 times more than normal
