@@ -8,7 +8,7 @@ metadata:
   annotations:
     {{- if eq .Values.ingress.provisionCert true }}
     cert-manager.io/cluster-issuer: "letsencrypt"
-    {{-end }}
+    {{- end }}
     {{- if .Values.ingress.wwwRedirect }}
     ingress.kubernetes.io/configuration-snippet: |
       rewrite ^/(.*)$ https://{{ .Values.ingress.host }}/$1 permanent;
